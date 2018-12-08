@@ -5,6 +5,7 @@ namespace App;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Database\Eloquent\Relations;
 
 class User extends Authenticatable
 {
@@ -27,4 +28,20 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+	/**
+	 * A User has many projects
+	 */
+    public function projects(): Relations\HasMany
+    {
+    	$this->hasMany(Project::class);
+    }
+
+	/**
+	 * A User has many activities
+	 */
+	public function activities(): Relations\HasMany
+	{
+		$this->hasMany(Activity::class);
+	}
 }
