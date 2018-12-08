@@ -4,6 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
+
 
 class LoginController extends Controller
 {
@@ -36,4 +40,32 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+	/**
+	 * Authenticate the user at Login
+	 */
+	public function make(): JsonResponse
+	{
+		$authUser = Auth::attempt([
+			'email' => request('email'),
+			'password' => request('password')
+		]);
+
+		if ($authUser) {
+			$user = Auth::user();
+			$user->setRememberToken(Str::random(60));
+			$user->save();
+			$user->makeVisible('remember_token');
+
+			return response()->json(
+				['status' => 'success', 'data' => $user],
+				200
+			);
+		} else {
+			return response()->json([
+				'error' => 'Email and password combination is incorrect.'],
+				401
+			);
+		}
+	}
 }
