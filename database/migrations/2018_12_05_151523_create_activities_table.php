@@ -19,11 +19,17 @@ class CreateActivitiesTable extends Migration
             $table->string('description')->nullable();
             $table->dateTime('started_at');
             $table->dateTime('finished_at');
+	        $table->integer('project_id')->unsigned();
             $table->integer('tax_id')->unsigned();
             $table->timestamps();
         });
 
 	    Schema::table('activities', function (Blueprint $table) {
+		    $table->foreign('project_id')
+			    ->references('id')->on('projects')
+			    ->onUpdate('cascade')
+			    ->onDelete('cascade');
+
 		    $table->foreign('tax_id')
 			    ->references('id')->on('taxes')
 			    ->onUpdate('cascade')
