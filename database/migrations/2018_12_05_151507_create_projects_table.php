@@ -16,6 +16,7 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
+            $table->decimal('hour_rate', 8, 2);
             $table->integer('user_id')->unsigned();
             $table->timestamps();
         });
