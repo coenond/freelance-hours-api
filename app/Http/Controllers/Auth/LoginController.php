@@ -57,15 +57,10 @@ class LoginController extends Controller
 			$user->save();
 			$user->makeVisible('remember_token');
 
-			return response()->json(
-				['status' => 'success', 'data' => $user],
-				200
-			);
+			return rspns_ok($user);
 		} else {
-			return response()->json([
-				'error' => 'Email and password combination is incorrect.'],
-				401
-			);
+			$message = ['message' => 'Email and password combination is incorrect.'];
+			return rspns_unauthorized($message);
 		}
 	}
 }
