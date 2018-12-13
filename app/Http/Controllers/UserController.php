@@ -27,4 +27,37 @@ class UserController extends Controller
 	        return rspns_not_found(null, $e->getMessage());
         }
     }
+
+    public function edit($id) {
+	    try {
+		    $user = User::findOrFail($id);
+	    } catch(ModelNotFoundException $e) {
+		    return rspns_not_found(null, $e->getMessage());
+	    }
+
+    	// ToDo
+	    return rspns_ok($user);
+    }
+
+	public function update($id) {
+		try {
+			$user = User::findOrFail($id);
+		} catch(ModelNotFoundException $e) {
+			return rspns_not_found(null, $e->getMessage());
+		}
+
+		// ToDo
+		return rspns_ok($user);
+	}
+
+	public function destory($id) {
+		try {
+			$user = User::findOrFail($id);
+		} catch(ModelNotFoundException $e) {
+			return rspns_not_found(null, $e->getMessage());
+		}
+
+		// ToDo
+		return rspns_ok($user);
+	}
 }
