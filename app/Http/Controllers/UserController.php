@@ -39,7 +39,7 @@ class UserController extends Controller
 	    return rspns_ok($user);
     }
 
-	public function update($id) {
+	public function update(Request $request, $id) {
 		try {
 			$user = User::findOrFail($id);
 		} catch(ModelNotFoundException $e) {

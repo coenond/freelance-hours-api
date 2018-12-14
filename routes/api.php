@@ -42,11 +42,6 @@ Route::group(['prefix' => 'projects'], function() {
 		'uses'   => 'ProjectController@index'
 	]);
 
-	Route::get('create', [
-		'as'     => 'projects.create',
-		'uses'   => 'ProjectController@create'
-	]);
-
 	Route::post('/', [
 		'as'     => 'projects.store',
 		'before' => 'csrf',
