@@ -12,12 +12,12 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index($id)
     {
 	    try {
-		    $user = User::findOrFail(request('user_id'));
+		    $project = Project::findOrFail($id);
 
-		    return rspns_ok($user->projects()->get());
+		    return rspns_ok($project);
 	    } catch(ModelNotFoundException $e) {
 		    return rspns_not_found(null, $e->getMessage());
 	    }
@@ -38,7 +38,7 @@ class ProjectController extends Controller
 
 		    $project->save();
 
-		    rspns_created($project);
+		    return rspns_created($project);
 	    } catch(ModelNotFoundException $e) {
 		    return rspns_not_found(null, $e->getMessage());
 	    }
@@ -52,7 +52,7 @@ class ProjectController extends Controller
 	    try {
 		    $project = Project::findOrFail($id);
 
-		    rspns_ok($project);
+		    return rspns_ok($project);
 	    } catch(ModelNotFoundException $e) {
 		    return rspns_not_found(null, $e->getMessage());
 	    }
@@ -60,8 +60,6 @@ class ProjectController extends Controller
 
     /**
      * Show the form for editing the specified resource.
-     *
-     * @param  \App\Project  $project
      */
     public function edit($id)
     {
@@ -72,30 +70,24 @@ class ProjectController extends Controller
 		    $project->hour_rate = request('hour_rate') ?: $project->hour_rate;
 		    $project->save();
 
-		    rspns_ok($project);
+		    return rspns_ok($project);
 	    } catch(ModelNotFoundException $e) {
 		    return rspns_not_found(null, $e->getMessage());
 	    }
     }
 
     /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Project  $project
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
-
-    /**
      * Remove the specified resource from storage.
-     *
-     * @param  \App\Project  $project
      */
     public function destroy($id)
     {
-        //
+	    try {
+		    $project = Project::findOrFail($id);
+		    $deleted = $project->delete();
+
+		    return rspns_ok($deleted);
+	    } catch(ModelNotFoundException $e) {
+		    return rspns_not_found(null, $e->getMessage());
+	    }
     }
 }

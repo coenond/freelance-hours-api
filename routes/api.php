@@ -37,18 +37,18 @@ Route::group(['prefix' => 'users'], function() {
  * Project Routes
  */
 Route::group(['prefix' => 'projects'], function() {
-	Route::get('/', [
+	Route::get('/{id}', [
 		'as'     => 'projects.index',
 		'uses'   => 'ProjectController@index'
 	]);
 
-	Route::post('/', [
+	Route::post('/store', [
 		'as'     => 'projects.store',
 		'before' => 'csrf',
 		'uses'   => 'ProjectController@store'
 	]);
 
-	Route::get('{id}/edit', [
+	Route::post('{id}/edit', [
 		'as'     => 'projects.edit',
 		'uses'   => 'ProjectController@edit'
 	])->where('id', '[0-9]+');
