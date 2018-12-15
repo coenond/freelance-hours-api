@@ -37,9 +37,14 @@ Route::group(['prefix' => 'users'], function() {
  * Project Routes
  */
 Route::group(['prefix' => 'projects'], function() {
-	Route::get('/{id}', [
+	Route::get('/', [
 		'as'     => 'projects.index',
 		'uses'   => 'ProjectController@index'
+	]);
+
+	Route::get('get/{id}', [
+		'as'     => 'projects.get',
+		'uses'   => 'ProjectController@get'
 	]);
 
 	Route::post('/store', [

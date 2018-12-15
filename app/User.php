@@ -32,16 +32,8 @@ class User extends Authenticatable
 	/**
 	 * A User has many projects
 	 */
-    public function projects(): Relations\HasMany
+    public function projects()
     {
-    	$this->hasMany(Project::class);
+    	return $this->hasMany(Project::class);
     }
-
-	/**
-	 * A User has many activities
-	 */
-	public function activities(): Relations\HasMany
-	{
-		$this->hasMany(Activity::class);
-	}
 }

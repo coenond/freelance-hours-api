@@ -40,4 +40,12 @@ class Project extends Model
 		return $this->belongsTo(User::class);
 	}
 
+	/**
+	 * A Project has many activities
+	 */
+	public function activities(): Relations\HasMany
+	{
+		return $this->hasMany(Activity::class);
+	}
+
 }

@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations;
 
 class Tax extends Model
 {
@@ -28,4 +29,12 @@ class Tax extends Model
 		'name',
 		'amount',
 	];
+
+	/**
+	 * A Tax has many activities
+	 */
+	public function activities(): Relations\HasMany
+	{
+		return $this->hasMany(Activity::class);
+	}
 }
