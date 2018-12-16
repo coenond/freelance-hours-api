@@ -48,9 +48,9 @@ class Activity extends Model
 	/**
 	 * An Activity has one tax rate.
 	 */
-	public function tax(): Relations\HasOne
+	public function tax(): Relations\BelongsTo
 	{
-		return $this->hasOne(Tax::class);
+		return $this->belongsTo(Tax::class);
 	}
 
 	/**

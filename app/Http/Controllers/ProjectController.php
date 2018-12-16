@@ -12,13 +12,12 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function activities($id)
     {
 	    try {
-	    	$user = User::findOrFail(request('user_id'));
-		    $projects = $user->projects()->get();
+		    $project = Project::findOrFail($id);
 
-		    return rspns_ok($projects);
+		    return rspns_ok($project->activities);
 	    } catch(ModelNotFoundException $e) {
 		    return rspns_not_found(null, $e->getMessage());
 	    }
