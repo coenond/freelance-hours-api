@@ -27,8 +27,10 @@ class ProjectController extends Controller
     {
 	    try {
 		    $project = Project::findOrFail($id);
+		    $projectArray = $project->toArray();
+		    $projectArray['activities'] = $project->activities;
 
-		    return rspns_ok($project);
+		    return rspns_ok($projectArray);
 	    } catch(ModelNotFoundException $e) {
 		    return rspns_not_found(null, $e->getMessage());
 	    }

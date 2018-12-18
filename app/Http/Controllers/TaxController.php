@@ -7,79 +7,68 @@ use Illuminate\Http\Request;
 
 class TaxController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        //
-    }
+	/**
+	 * Display a listing of the resource.
+	 */
+	public function get($id)
+	{
+		try {
+			$tax = Tax::findOrFail($id);
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
+			return rspns_ok($tax);
+		} catch(ModelNotFoundException $e) {
+			return rspns_not_found(null, $e->getMessage());
+		}
+	}
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+	/**
+	 * Store a newly created resource in storage.
+	 */
+	public function store()
+	{
+		try {
+			$tax = new Tax();
+			$tax->name = request('name');
+			$tax->amount = request('amount');
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Tax  $tax
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Tax $tax)
-    {
-        //
-    }
+			$tax->save();
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Tax  $tax
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Tax $tax)
-    {
-        //
-    }
+			return rspns_created($tax);
+		} catch(ModelNotFoundException $e) {
+			return rspns_not_found(null, $e->getMessage());
+		}
+	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Tax  $tax
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Tax $tax)
-    {
-        //
-    }
+	/**
+	 * Show the form for editing the specified resource.
+	 */
+	public function edit($id)
+	{
+		try {
+			$tax = Tax::findOrFail($id);
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Tax  $tax
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Tax $tax)
-    {
-        //
-    }
+			$tax->name = request('name') ?: $tax->name;
+			$tax->amount = request('amount') ?: $tax->amount;
+			$tax->save();
+
+			return rspns_ok($tax);
+		} catch(ModelNotFoundException $e) {
+			return rspns_not_found(null, $e->getMessage());
+		}
+	}
+
+	/**
+	 * Remove the specified resource from storage.
+	 */
+	public function destroy($id)
+	{
+		try {
+			$tax = Tax::findOrFail($id);
+			$deleted = $tax->delete();
+
+			return rspns_ok($deleted);
+		} catch(ModelNotFoundException $e) {
+			return rspns_not_found(null, $e->getMessage());
+		}
+	}
 }

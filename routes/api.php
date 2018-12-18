@@ -37,11 +37,6 @@ Route::group(['prefix' => 'users'], function() {
  * Project Routes
  */
 Route::group(['prefix' => 'projects'], function() {
-	Route::get('{id}/activities', [
-		'as'     => 'projects.activities',
-		'uses'   => 'ProjectController@activities'
-	]);
-
 	Route::get('get/{id}', [
 		'as'     => 'projects.get',
 		'uses'   => 'ProjectController@get'
@@ -67,6 +62,41 @@ Route::group(['prefix' => 'projects'], function() {
 	Route::get('{id}/destroy', [
 		'as'     => 'projects.destroy',
 		'uses'   => 'ProjectController@destroy'
+	])->where('id', '[0-9]+');
+});
+
+/**
+ * Activity Routes
+ */
+Route::group(['prefix' => 'activities'], function() {
+	Route::get('get/{id}', [
+		'as'     => 'activities.get',
+		'uses'   => 'ActivityController@get'
+	]);
+
+	Route::get('create', [
+		'as'     => 'activities.create',
+		'uses'   => 'ActivityController@create'
+	]);
+
+	Route::post('/', [
+		'as'     => 'activities.store',
+		'uses'   => 'ActivityController@store'
+	]);
+
+	Route::get('{id}/edit', [
+		'as'     => 'activities.edit',
+		'uses'   => 'ActivityController@edit'
+	])->where('id', '[0-9]+');
+
+	Route::post('{id}', [
+		'as'     => 'activities.update',
+		'uses'   => 'ActivityController@update'
+	])->where('id', '[0-9]+');
+
+	Route::get('{id}/destroy', [
+		'as'     => 'activities.destroy',
+		'uses'   => 'ActivityController@destroy'
 	])->where('id', '[0-9]+');
 });
 
@@ -104,42 +134,5 @@ Route::group(['prefix' => 'taxes'], function() {
 	Route::get('{id}/destroy', [
 		'as'     => 'taxes.destroy',
 		'uses'   => 'TaxController@destroy'
-	])->where('id', '[0-9]+');
-});
-
-/**
- * Activity Routes
- */
-Route::group(['prefix' => 'activities'], function() {
-	Route::get('get/{id}', [
-		'as'     => 'activities.get',
-		'uses'   => 'ActivityController@get'
-	]);
-
-	Route::get('create', [
-		'as'     => 'activities.create',
-		'uses'   => 'ActivityController@create'
-	]);
-
-	Route::post('/', [
-		'as'     => 'activities.store',
-		'before' => 'csrf',
-		'uses'   => 'ActivityController@store'
-	]);
-
-	Route::get('{id}/edit', [
-		'as'     => 'activities.edit',
-		'uses'   => 'ActivityController@edit'
-	])->where('id', '[0-9]+');
-
-	Route::post('{id}', [
-		'as'     => 'activities.update',
-		'before' => 'csrf',
-		'uses'   => 'ActivityController@update'
-	])->where('id', '[0-9]+');
-
-	Route::get('{id}/destroy', [
-		'as'     => 'activities.destroy',
-		'uses'   => 'ActivityController@destroy'
 	])->where('id', '[0-9]+');
 });
