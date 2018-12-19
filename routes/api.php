@@ -2,6 +2,10 @@
 
 use Illuminate\Http\Request;
 
+Route::get('/', function () {
+    return 'API Running.';
+});
+
 Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 	Route::post('login', 'LoginController@make');
 	Route::post('register', 'RegisterController@make');
