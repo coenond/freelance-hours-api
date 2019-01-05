@@ -53,6 +53,27 @@ class Activity extends Model
 		return $this->belongsTo(Tax::class);
 	}
 
+	public function getDurationAttribute()
+	{
+		return $this->durationInMinutes();
+	}
+
+	public function getCostInclAttribute()
+	{
+		return round($this->costExcl * (1 + ($this->tax->amount / 100)), 2);
+	}
+
+	public function getCostExclAttribute()
+	{
+		$minuteRate = $this->project->hour_rate / 60;
+		return round($this->durationInMinutes() * $minuteRate, 2);
+	}
+
+	public function getTaxAmountAttribute()
+	{
+		return round($this->costIncl - $this->costExcl, 2);
+	}
+
 	/**
 	 * Calculate the duration of the activity in minutes
 	 */

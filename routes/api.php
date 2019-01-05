@@ -41,6 +41,11 @@ Route::group(['prefix' => 'users'], function() {
  * Project Routes
  */
 Route::group(['prefix' => 'projects'], function() {
+	Route::get('/all', [
+		'as'     => 'projects.all',
+		'uses'   => 'ProjectController@all'
+	]);
+
 	Route::get('get/{id}', [
 		'as'     => 'projects.get',
 		'uses'   => 'ProjectController@get'
@@ -73,6 +78,11 @@ Route::group(['prefix' => 'projects'], function() {
  * Activity Routes
  */
 Route::group(['prefix' => 'activities'], function() {
+	Route::get('/all', [
+		'as'     => 'activities.all',
+		'uses'   => 'ActivityController@all'
+	]);
+
 	Route::get('get/{id}', [
 		'as'     => 'activities.get',
 		'uses'   => 'ActivityController@get'

@@ -12,6 +12,20 @@ class ProjectController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function all()
+    {
+	    try {
+		    $projects = Project::all();
+
+		    return rspns_ok($projects);
+	    } catch(ModelNotFoundException $e) {
+		    return rspns_not_found(null, $e->getMessage());
+	    }
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function activities($id)
     {
 	    try {

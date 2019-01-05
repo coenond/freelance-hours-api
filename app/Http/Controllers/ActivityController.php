@@ -11,6 +11,30 @@ class ActivityController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function all()
+    {
+        try {
+            $activities = Activity::all();
+
+            $data = $activities->toArray();
+
+            foreach ($data as $key => $activity) {
+	            $data[$key]['duration'] = $activities[$key]->duration;
+	            $data[$key]['tax_rate'] = floatval($activities[$key]->tax->amount);
+	            $data[$key]['tax_amount'] = $activities[$key]->taxAmount;
+	            $data[$key]['cost_excl'] = $activities[$key]->cost_excl;
+	            $data[$key]['cost_incl'] = $activities[$key]->cost_incl;
+            }
+
+	        return rspns_ok($data);
+        } catch(ModelNotFoundException $e) {
+            return rspns_not_found(null, $e->getMessage());
+        }
+    }
+
+    /**
+     * Display a listing of the resource.
+     */
     public function get($id)
     {
         try {
