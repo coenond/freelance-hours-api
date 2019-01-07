@@ -18,7 +18,7 @@ class Tax extends Model
 	protected $visible = [
 		'id',
 		'name',
-		'amount',
+		'rate',
 	];
 
 	/**
@@ -27,7 +27,7 @@ class Tax extends Model
 	protected $fillable = [
 		'id',
 		'name',
-		'amount',
+		'rate',
 	];
 
 	/**

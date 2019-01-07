@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Activity;
 use App\Project;
+use App\Tax;
 use Illuminate\Http\Request;
 
 class ActivityController extends Controller
@@ -20,7 +22,7 @@ class ActivityController extends Controller
 
             foreach ($data as $key => $activity) {
 	            $data[$key]['duration'] = $activities[$key]->duration;
-	            $data[$key]['tax_rate'] = floatval($activities[$key]->tax->amount);
+	            $data[$key]['tax_rate'] = floatval($activities[$key]->tax->rate);
 	            $data[$key]['tax_amount'] = $activities[$key]->taxAmount;
 	            $data[$key]['cost_excl'] = $activities[$key]->cost_excl;
 	            $data[$key]['cost_incl'] = $activities[$key]->cost_incl;
@@ -57,16 +59,21 @@ class ActivityController extends Controller
     public function store()
     {
         try {
-            $user = User::findOrFail(request('user_id'));
+	        $tax = Tax::findOrFail(request('tax_id'));
+	        $project = Project::findOrFail(request('project_id'));
 
-            $project = new Project();
-            $project->name = request('name');
-            $project->hour_rate = request('hour_rate');
-            $project->user()->associate($user);
+            $activity = new Activity();
+	        $activity->name = request('name');
+	        $activity->description = request('description');
+	        $activity->started_at = request('started_at');
+	        $activity->finished_at = request('finished_at');
 
-            $project->save();
+	        $activity->tax()->associate($tax);
+	        $activity->project()->associate($project);
 
-            return rspns_created($project);
+	        $activity->save();
+
+            return rspns_created($activity);
         } catch(ModelNotFoundException $e) {
             return rspns_not_found(null, $e->getMessage());
         }

@@ -93,8 +93,9 @@ Route::group(['prefix' => 'activities'], function() {
 		'uses'   => 'ActivityController@create'
 	]);
 
-	Route::post('/', [
+	Route::post('/store', [
 		'as'     => 'activities.store',
+		'before' => 'csrf',
 		'uses'   => 'ActivityController@store'
 	]);
 
@@ -118,9 +119,14 @@ Route::group(['prefix' => 'activities'], function() {
  * Taxes Routes
  */
 Route::group(['prefix' => 'taxes'], function() {
-	Route::get('/', [
-		'as'     => 'taxes.index',
-		'uses'   => 'TaxController@index'
+	Route::get('/all', [
+		'as'     => 'taxes.all',
+		'uses'   => 'TaxController@all'
+	]);
+
+	Route::get('get/{id}', [
+		'as'     => 'taxes.get',
+		'uses'   => 'TaxController@get'
 	]);
 
 	Route::get('create', [

@@ -10,6 +10,20 @@ class TaxController extends Controller
 	/**
 	 * Display a listing of the resource.
 	 */
+	public function all()
+	{
+		try {
+			$taxes = Tax::all();
+
+			return rspns_ok($taxes);
+		} catch(ModelNotFoundException $e) {
+			return rspns_not_found(null, $e->getMessage());
+		}
+	}
+
+	/**
+	 * Display a listing of the resource.
+	 */
 	public function get($id)
 	{
 		try {
@@ -29,7 +43,7 @@ class TaxController extends Controller
 		try {
 			$tax = new Tax();
 			$tax->name = request('name');
-			$tax->amount = request('amount');
+			$tax->rate = request('rate');
 
 			$tax->save();
 
@@ -48,7 +62,7 @@ class TaxController extends Controller
 			$tax = Tax::findOrFail($id);
 
 			$tax->name = request('name') ?: $tax->name;
-			$tax->amount = request('amount') ?: $tax->amount;
+			$tax->rate = request('rate') ?: $tax->rate;
 			$tax->save();
 
 			return rspns_ok($tax);

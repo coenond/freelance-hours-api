@@ -60,7 +60,8 @@ class Activity extends Model
 
 	public function getCostInclAttribute()
 	{
-		return round($this->costExcl * (1 + ($this->tax->amount / 100)), 2);
+		$cost = (int) ($this->costExcl * (1 + ($this->tax->rate / 100)) * 100);
+		return $cost / 100;
 	}
 
 	public function getCostExclAttribute()
