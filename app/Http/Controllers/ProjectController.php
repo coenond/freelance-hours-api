@@ -17,7 +17,15 @@ class ProjectController extends Controller
 	    try {
 		    $projects = Project::all();
 
-		    return rspns_ok($projects);
+		    $data = $projects->toArray();
+
+		    for ($i = 0; $i < count($data); $i++) {
+			    $data[$i]['logs'] = $projects[$i]->logs ?: 0;
+			    $data[$i]['revenue'] = round($projects[$i]->revenue) ?: 0;
+			    $data[$i]['hours'] = round($projects[$i]->hours) ?: 0;
+		    }
+
+		    return rspns_ok($data);
 	    } catch(ModelNotFoundException $e) {
 		    return rspns_not_found(null, $e->getMessage());
 	    }

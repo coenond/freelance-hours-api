@@ -118,9 +118,9 @@ class ActivityController extends Controller
     {
         try {
             $project = Project::findOrFail($id);
-            $deleted = $project->delete();
+            $project->delete();
 
-            return rspns_ok($deleted);
+            return rspns_ok($project);
         } catch(ModelNotFoundException $e) {
             return rspns_not_found(null, $e->getMessage());
         }

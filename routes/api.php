@@ -12,6 +12,16 @@ Route::group(['prefix' => 'auth', 'namespace' => 'Auth'], function () {
 });
 
 /**
+ * Dashboard Routes
+ */
+Route::group(['prefix' => 'dashboard'], function() {
+	Route::get('/', [
+		'as'     => 'dashboard.index',
+		'uses'   => 'DashboardController@index'
+	]);
+});
+
+	/**
  * User Routes
  */
 Route::group(['prefix' => 'users'], function() {
@@ -134,7 +144,7 @@ Route::group(['prefix' => 'taxes'], function() {
 		'uses'   => 'TaxController@create'
 	]);
 
-	Route::post('/', [
+	Route::post('/store', [
 		'as'     => 'taxes.store',
 		'before' => 'csrf',
 		'uses'   => 'TaxController@store'

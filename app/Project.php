@@ -2,6 +2,7 @@
 
 namespace App;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations;
 
@@ -46,6 +47,35 @@ class Project extends Model
 	public function activities(): Relations\HasMany
 	{
 		return $this->hasMany(Activity::class);
+	}
+
+	public function getLogsAttribute()
+	{
+		return $this->activities()->count() ?: 0;
+	}
+
+	public function getRevenueAttribute()
+	{
+		$activities = $this->activities()->get();
+		$revenue = 0;
+
+		foreach ($activities as $activity) {
+			$revenue = $revenue + $activity->cost_incl;
+		}
+
+		return $revenue;
+	}
+
+	public function getHoursAttribute()
+	{
+		$activities = $this->activities()->get();
+		$minutes = 0;
+
+		foreach ($activities as $activity) {
+			$minutes = $minutes + $activity->duration;
+		}
+
+		return round($minutes/60);
 	}
 
 }
